@@ -18,6 +18,7 @@ model Article {
   title       String   @unique
   description String?
   body        String
+  image       String?
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
