@@ -11,6 +11,9 @@ export class CreateArticleDto {
   @IsString()
   body: string;
 
+  @IsString()
+  image?: string;
+
   @IsBoolean()
   published?: boolean = false;
 }
