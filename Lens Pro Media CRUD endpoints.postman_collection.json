@@ -1,0 +1,686 @@
+{
+	"info": {
+		"_postman_id": "f36e4014-dd5c-4d1c-8282-5093db732594",
+		"name": "Lens Pro Media CRUD endpoints",
+		"description": "# 🚀 Get started here\n\nThis collection guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this collection**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these request types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT and PATCH requests.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a variable called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Tests\" tab**\n\nTests help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/b5f280a7-4b09-48ec-857f-0a7ed99d7ef8/U2NyZWVuc2hvdCAyMDIzLTAzLTI3IGF0IDkuNDcuMjggUE0ucG5n\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more scripts in \"Tests\" to verify if the API works as expected and execute flows.\n    \n\n## ℹ️ Resources\n\n[Building requests](https://learning.postman.com/docs/sending-requests/requests/)  \n[Authorizing requests](https://learning.postman.com/docs/sending-requests/authorization/)  \n[Using variables](https://learning.postman.com/docs/sending-requests/variables/)  \n[Managing environments](https://learning.postman.com/docs/sending-requests/managing-environments/)  \n[Writing scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28003972",
+		"_collection_link": "https://restless-satellite-983325.postman.co/workspace/Len's-Pro-Media~a8d16ad1-9a47-413b-ba21-c5905b568987/collection/28003972-f36e4014-dd5c-4d1c-8282-5093db732594?action=share&source=collection_link&creator=28003972"
+	},
+	"item": [
+		{
+			"name": "Get Published Articles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/articles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"articles"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": [
+				{
+					"name": "Get Published Articles",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/articles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:3000"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2210"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"8a2-3Er06ATZPjDH2sfAa1F13XCYKAg\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 11 Oct 2025 13:13:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 13,\n        \"title\": \"Okay, new image\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": \"https://images.unsplash.com/photo-1617468264204-92588bd6485a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\n        \"published\": true,\n        \"createdAt\": \"2025-10-11T12:59:23.410Z\",\n        \"updatedAt\": \"2025-10-11T12:59:23.410Z\"\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Basic BRUHHHHH\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": \"https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=400&fit=crop\",\n        \"published\": true,\n        \"createdAt\": \"2025-10-07T08:24:44.486Z\",\n        \"updatedAt\": \"2025-10-11T13:09:49.937Z\"\n    },\n    {\n        \"id\": 4,\n        \"title\": \"Basic Design Pattern\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": \"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&h=400&fit=crop\",\n        \"published\": true,\n        \"createdAt\": \"2025-10-10T09:44:26.343Z\",\n        \"updatedAt\": \"2025-10-11T13:11:18.924Z\"\n    },\n    {\n        \"id\": 10,\n        \"title\": \"Heyyyyy TESTING\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": \"https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800&h=400&fit=crop\",\n        \"published\": true,\n        \"createdAt\": \"2025-10-11T12:38:56.318Z\",\n        \"updatedAt\": \"2025-10-11T13:12:15.938Z\"\n    },\n    {\n        \"id\": 8,\n        \"title\": \"Unique blog pattern muhahaha\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": \"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=400&fit=crop\",\n        \"published\": true,\n        \"createdAt\": \"2025-10-11T11:16:27.469Z\",\n        \"updatedAt\": \"2025-10-11T13:13:07.177Z\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Find Articles by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/articles/2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"articles",
+						"2"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": [
+				{
+					"name": "Find Articles by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/articles/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:3000"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "355"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"163-8Y1sksrObFfmXN3pRnsOy1SJm3E\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 11 Oct 2025 13:05:18 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"title\": \"What's new in Prisma? (Q1/22)\",\n    \"description\": \"Learn about everything in the Prisma ecosystem and community from January to March 2022.\",\n    \"body\": \"Our engineers have been working hard, issuing new releases with many improvements...\",\n    \"image\": null,\n    \"published\": true,\n    \"createdAt\": \"2025-10-07T08:24:44.486Z\",\n    \"updatedAt\": \"2025-10-07T08:24:44.486Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Drafts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/articles/drafts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"articles",
+						"drafts"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": [
+				{
+					"name": "Get All Drafts",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/articles/drafts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles",
+								"drafts"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:3000"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1078"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"436-84/tcUcFrt0Fl3/NK6j6Mct2XvU\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 11 Oct 2025 12:58:51 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Prisma Adds Support for MongoDB\",\n        \"description\": \"We are excited to share that today's Prisma ORM release adds stable support for MongoDB!\",\n        \"body\": \"Support for MongoDB has been one of the most requested features since the initial release of...\",\n        \"image\": null,\n        \"published\": false,\n        \"createdAt\": \"2025-10-07T08:24:44.478Z\",\n        \"updatedAt\": \"2025-10-07T08:24:44.478Z\"\n    },\n    {\n        \"id\": 3,\n        \"title\": \"Understand Photography\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": null,\n        \"published\": false,\n        \"createdAt\": \"2025-10-10T09:43:05.156Z\",\n        \"updatedAt\": \"2025-10-10T09:43:05.156Z\"\n    },\n    {\n        \"id\": 9,\n        \"title\": \"Connect Frontend with Backend\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": null,\n        \"published\": false,\n        \"createdAt\": \"2025-10-11T11:45:10.420Z\",\n        \"updatedAt\": \"2025-10-11T11:45:10.420Z\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Post data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Okay, new image\",\n    \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n    \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n    \"image\": \"https://images.unsplash.com/photo-1617468264204-92588bd6485a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\n    \"published\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/articles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"articles"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": [
+				{
+					"name": "Post data",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Okay, new image\",\n    \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n    \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n    \"image\": \"https://images.unsplash.com/photo-1617468264204-92588bd6485a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\n    \"published\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/articles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:3000"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "506"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1fa-XeBkmg6xaEWK8L4mLKUvXqLGLcE\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 11 Oct 2025 12:59:23 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 13,\n    \"title\": \"Okay, new image\",\n    \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n    \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n    \"image\": \"https://images.unsplash.com/photo-1617468264204-92588bd6485a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\",\n    \"published\": true,\n    \"createdAt\": \"2025-10-11T12:59:23.410Z\",\n    \"updatedAt\": \"2025-10-11T12:59:23.410Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful PUT request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"title\": \"Unique blog pattern muhahaha\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": \"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=400&fit=crop\",\n        \"published\": true\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/articles/8",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"articles",
+						"8"
+					]
+				},
+				"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+			},
+			"response": [
+				{
+					"name": "Update data",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"title\": \"Unique blog pattern muhahaha\",\n        \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n        \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n        \"image\": \"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=400&fit=crop\",\n        \"published\": true\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/articles/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles",
+								"8"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:3000"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "433"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1b1-rBjREh4FmU4DTElVNkxdPzxyHJU\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 11 Oct 2025 13:13:07 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 8,\n    \"title\": \"Unique blog pattern muhahaha\",\n    \"description\": \"In this session, we will go over the basic understanding of how photography is developed\",\n    \"body\": \"We are a team from Cambodia that is passionate about how Photography and Videography\",\n    \"image\": \"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=400&fit=crop\",\n    \"published\": true,\n    \"createdAt\": \"2025-10-11T11:16:27.469Z\",\n    \"updatedAt\": \"2025-10-11T13:13:07.177Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/articles/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"articles",
+						"1"
+					]
+				},
+				"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+			},
+			"response": [
+				{
+					"name": "Delete data",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/articles/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "http://localhost:3000"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "369"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"171-0ZNJKxZbmSmTlscnDtKRK1WCQbM\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 12 Oct 2025 06:49:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"title\": \"Prisma Adds Support for MongoDB\",\n    \"description\": \"We are excited to share that today's Prisma ORM release adds stable support for MongoDB!\",\n    \"body\": \"Support for MongoDB has been one of the most requested features since the initial release of...\",\n    \"image\": null,\n    \"published\": false,\n    \"createdAt\": \"2025-10-07T08:24:44.478Z\",\n    \"updatedAt\": \"2025-10-07T08:24:44.478Z\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}
