@@ -7,14 +7,13 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       process.env.FRONTEND_URL || 'http://localhost:3000',
-      'blog-website-ashy-kappa.vercel.app',
+      'https://blog-website-ashy-kappa.vercel.app', // Add https://
     ],
-    // according to the doc, this origin, will allow only the requests that comes from the defined route
-    credentials: true, // we set this to true to 'enable' CORS so that, the request only work with the defined route. if set to false, that means we 'disable' CORS.
+    credentials: true,
   });
 
   const port = process.env.PORT || 3001;
-  await app.listen(port);
-  console.log(`Server is running on http://localhost:${port}`);
+  await app.listen(port, '0.0.0.0'); // ← ADD '0.0.0.0' HERE
+  console.log(`Server is running on port ${port}`);
 }
 bootstrap();
