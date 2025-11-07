@@ -13,13 +13,362 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Article {
-  id          Int      @id @default(autoincrement())
-  title       String   @unique
+// ============================================
+// ENUMS
+// ============================================
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum Language {
+  EN // English
+  KM // Khmer
+}
+
+enum FileType {
+  IMAGE
+  VIDEO
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  passwordHash   String    @map("password_hash")
+  displayName    String    @map("display_name")
+  profilePicture String?   @map("profile_picture")
+  roleId         String    @map("role_id")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  lastLogin      DateTime? @map("last_login")
+  isActive       Boolean   @default(true) @map("is_active")
+  bio            String?   @db.Text
+
+  // Relations
+  role                    Role               @relation(fields: [roleId], references: [id])
+  articles                Article[]          @relation("ArticleAuthor")
+  comments                Comment[]
+  savedArticles           SavedArticle[]
+  createdTags             Tag[]
+  createdCategories       Category[]
+  createdSeries           Series[]
+  uploadedMedia           MediaFile[]
+  articleViews            ArticleView[]
+  authorPermissionsReceived AuthorPermission[] @relation("AuthorReceived")
+  authorPermissionsGranted  AuthorPermission[] @relation("AdminGranted")
+
+  @@index([email])
+  @@index([roleId])
+  @@map("users")
+}
+
+model Role {
+  id          String  @id @default(uuid())
+  name        String  @unique // "super_admin", "admin", "author", "reader"
+  permissions Json    // Store permissions as JSON object
   description String?
-  body        String
-  image       String?
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  // Relations
+  users User[]
+
+  @@map("roles")
+}
+
+model AuthorPermission {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id") // Author receiving permission
+  grantedBy       String   @map("granted_by") // Super admin who granted it
+  permissionEmail String   @map("permission_email")
+  grantedAt       DateTime @default(now()) @map("granted_at")
+  isActive        Boolean  @default(true) @map("is_active")
+  notes           String?  @db.Text
+
+  // Relations
+  user          User @relation("AuthorReceived", fields: [userId], references: [id], onDelete: Cascade)
+  grantedByUser User @relation("AdminGranted", fields: [grantedBy], references: [id])
+
+  @@index([userId])
+  @@index([grantedBy])
+  @@map("author_permissions")
+}
+
+// ============================================
+// ARTICLES & CONTENT
+// ============================================
+
+model Article {
+  id               String        @id @default(uuid())
+  authorId         String        @map("author_id")
+  categoryId       String        @map("category_id")
+  slug             String        @unique
+  featuredImageUrl String?       @map("featured_image_url")
+  status           ArticleStatus @default(DRAFT)
+  viewCount        Int           @default(0) @map("view_count")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+  publishedAt      DateTime?     @map("published_at")
+  allowComments    Boolean       @default(true) @map("allow_comments")
+  hasEnglish       Boolean       @default(false) @map("has_english")
+  hasKhmer         Boolean       @default(false) @map("has_khmer")
+
+  // Relations
+  author       User                 @relation("ArticleAuthor", fields: [authorId], references: [id])
+  category     Category             @relation(fields: [categoryId], references: [id])
+  translations ArticleTranslation[]
+  comments     Comment[]
+  savedBy      SavedArticle[]
+  views        ArticleView[]
+  mediaFiles   MediaFile[]
+  articleTags  ArticleTag[]
+  articleSeries ArticleSeries[]
+
+  @@index([authorId])
+  @@index([categoryId])
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+  @@map("articles")
+}
+
+model ArticleTranslation {
+  id              String   @id @default(uuid())
+  articleId       String   @map("article_id")
+  language        Language
+  title           String
+  content         Json     @db.Json // Rich text JSON from editor (TipTap/Lexical/etc)
+  excerpt         String   @db.Text // First 100-200 chars for previews
+  readTimeMinutes Int      @map("read_time_minutes")
+  isPublished     Boolean  @default(false) @map("is_published")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, language]) // One translation per language per article
+  @@index([articleId])
+  @@index([language])
+  @@map("article_translations")
+}
+
+// ============================================
+// CATEGORIES
+// ============================================
+
+model Category {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  createdBy String   @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  creator      User                  @relation(fields: [createdBy], references: [id])
+  translations CategoryTranslation[]
+  articles     Article[]
+
+  @@index([slug])
+  @@index([createdBy])
+  @@map("categories")
+}
+
+model CategoryTranslation {
+  id          String   @id @default(uuid())
+  categoryId  String   @map("category_id")
+  language    Language
+  name        String
+  description String?
+
+  // Relations
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([categoryId, language])
+  @@index([categoryId])
+  @@map("category_translations")
+}
+
+// ============================================
+// TAGS
+// ============================================
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String   @unique // "frontend", "backend", "photography"
+  slug      String   @unique
+  color     String? // Hex color for UI display
+  createdBy String   @map("created_by")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  creator     User         @relation(fields: [createdBy], references: [id])
+  articleTags ArticleTag[]
+
+  @@index([slug])
+  @@index([createdBy])
+  @@map("tags")
+}
+
+model ArticleTag {
+  articleId String @map("article_id")
+  tagId     String @map("tag_id")
+
+  // Relations
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId]) // Composite primary key
+  @@index([articleId])
+  @@index([tagId])
+  @@map("article_tags")
+}
+
+// ============================================
+// SERIES
+// ============================================
+
+model Series {
+  id            String   @id @default(uuid())
+  authorId      String   @map("author_id")
+  slug          String   @unique
+  coverImageUrl String?  @map("cover_image_url")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author         User               @relation(fields: [authorId], references: [id])
+  translations   SeriesTranslation[]
+  articleSeries  ArticleSeries[]
+
+  @@index([slug])
+  @@index([authorId])
+  @@map("series")
+}
+
+model SeriesTranslation {
+  id          String   @id @default(uuid())
+  seriesId    String   @map("series_id")
+  language    Language
+  title       String
+  description String?  @db.Text
+
+  // Relations
+  series Series @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+
+  @@unique([seriesId, language])
+  @@index([seriesId])
+  @@map("series_translations")
+}
+
+model ArticleSeries {
+  articleId String @map("article_id")
+  seriesId  String @map("series_id")
+  order     Int    @default(0) // Order of article in series
+
+  // Relations
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  series  Series  @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, seriesId])
+  @@index([seriesId])
+  @@map("article_series")
+}
+
+// ============================================
+// COMMENTS
+// ============================================
+
+model Comment {
+  id              String   @id @default(uuid())
+  articleId       String   @map("article_id")
+  userId          String   @map("user_id")
+  parentCommentId String?  @map("parent_comment_id") // null if top-level comment
+  content         String   @db.Text
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  isEdited        Boolean  @default(false) @map("is_edited")
+  isDeleted       Boolean  @default(false) @map("is_deleted")
+
+  // Relations
+  article Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user    User      @relation(fields: [userId], references: [id])
+  parent  Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([articleId])
+  @@index([userId])
+  @@index([parentCommentId])
+  @@map("comments")
+}
+
+// ============================================
+// SAVED ARTICLES (Bookmarks)
+// ============================================
+
+model SavedArticle {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  articleId String   @map("article_id")
+  savedAt   DateTime @default(now()) @map("saved_at")
+  notes     String?  @db.Text // Personal notes on saved article
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId]) // User can only save an article once
+  @@index([userId])
+  @@index([articleId])
+  @@map("saved_articles")
+}
+
+// ============================================
+// ANALYTICS
+// ============================================
+
+model ArticleView {
+  id        String   @id @default(uuid())
+  articleId String   @map("article_id")
+  userId    String?  @map("user_id") // null for anonymous viewers
+  ipAddress String   @map("ip_address")
+  userAgent String   @map("user_agent")
+  viewedAt  DateTime @default(now()) @map("viewed_at")
+
+  // Relations
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user    User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([articleId])
+  @@index([userId])
+  @@index([viewedAt])
+  @@map("article_views")
+}
+
+// ============================================
+// MEDIA FILES
+// ============================================
+
+model MediaFile {
+  id         String   @id @default(uuid())
+  articleId  String   @map("article_id")
+  uploadedBy String   @map("uploaded_by")
+  filename   String
+  storageUrl String   @map("storage_url") // Supabase Storage URL
+  fileType   FileType @map("file_type")
+  mimeType   String   @map("mime_type")
+  sizeBytes  BigInt   @map("size_bytes")
+  width      Int?     // For images
+  height     Int?     // For images
+  uploadedAt DateTime @default(now()) @map("uploaded_at")
+
+  // Relations
+  article  Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  uploader User    @relation(fields: [uploadedBy], references: [id])
+
+  @@index([articleId])
+  @@index([uploadedBy])
+  @@map("media_files")
 }
